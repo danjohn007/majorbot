@@ -305,9 +305,14 @@ define('SITE_NAME', 'Tu Hotel - Sistema de Gestión');
 
 ### Error 404 en todas las páginas
 
+**✅ Corregido:** Los archivos `.htaccess` ahora usan rutas relativas y funcionan en cualquier configuración.
+
+Si aún tienes problemas:
+
 1. Verifica que mod_rewrite esté habilitado
 2. Comprueba que los archivos .htaccess existan
 3. Revisa la configuración de AllowOverride en Apache
+4. Si actualizaste desde una versión anterior, asegúrate de actualizar el archivo `.htaccess` raíz
 
 ### Las rutas no funcionan
 
