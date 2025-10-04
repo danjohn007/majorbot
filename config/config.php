@@ -13,8 +13,8 @@ define('BASE_URL', rtrim(getBaseUrl(), '/'));
 
 // Database configuration
 define('DB_HOST', 'localhost');
-define('DB_NAME', 'aqh_majorbot');
-define('DB_USER', 'aqh_majorbot');
+define('DB_NAME', 'fix360_majorbot');
+define('DB_USER', 'fix360_majorbot');
 define('DB_PASS', 'Danjohn007!');
 define('DB_CHARSET', 'utf8mb4');
 
