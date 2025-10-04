@@ -195,7 +195,8 @@ sudo service apache2 restart
 | Problema | Solución Rápida |
 |----------|----------------|
 | No carga el sistema | Verificar Apache y MySQL activos |
-| Error 404 | Verificar mod_rewrite habilitado |
+| Error 403 o 404 | ✅ Corregido en .htaccess - ver FIX_403_404_ERRORS.md |
+| Error 404 en rutas | Verificar mod_rewrite habilitado y AllowOverride All |
 | No conecta DB | Revisar config/config.php |
 | Sesión expira rápido | Aumentar session timeout en PHP |
 | Lento | Optimizar queries, agregar índices |
