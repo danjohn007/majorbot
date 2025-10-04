@@ -303,6 +303,42 @@ define('SITE_NAME', 'Tu Hotel - Sistema de Gestión');
 3. Verifica que la base de datos exista
 4. Comprueba los permisos del usuario MySQL
 
+### Error 403 - Forbidden
+
+**✅ Corregido:** Los archivos `.htaccess` ahora incluyen directivas explícitas de acceso para Apache 2.4+.
+
+Si aún experimentas errores 403, verifica lo siguiente:
+
+1. **Verifica que mod_authz_core esté habilitado (Apache 2.4+)**:
+   ```bash
+   apache2ctl -M | grep authz_core
+   ```
+
+2. **Verifica la configuración de AllowOverride en Apache**:
+   Debe estar configurado como `AllowOverride All` en el VirtualHost o directorio:
+   ```apache
+   <Directory /var/www/html/majorbot>
+       AllowOverride All
+       Require all granted
+   </Directory>
+   ```
+
+3. **Verifica los permisos de archivos y directorios**:
+   ```bash
+   sudo chown -R www-data:www-data /ruta/a/majorbot
+   sudo chmod -R 755 /ruta/a/majorbot
+   ```
+
+4. **Reinicia Apache después de cambios**:
+   ```bash
+   sudo service apache2 restart
+   ```
+
+5. **Verifica los logs de Apache**:
+   ```bash
+   sudo tail -f /var/log/apache2/error.log
+   ```
+
 ### Error 404 en todas las páginas
 
 **✅ Corregido:** Los archivos `.htaccess` ahora usan rutas relativas y funcionan en cualquier configuración.

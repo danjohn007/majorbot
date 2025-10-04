@@ -206,6 +206,110 @@ Las configuraciones de email se agregarán en futuras versiones.
    mysql -u root -p -e "SHOW DATABASES;"
    ```
 
+### Error 403 - Forbidden
+
+**✅ Corregido:** Los archivos `.htaccess` ahora incluyen directivas explícitas `Require all granted` para Apache 2.4+, además de compatibilidad con Apache 2.2.
+
+Este error ocurre cuando Apache niega el acceso a archivos o directorios. Las causas más comunes son:
+
+#### Solución 1: Verificar módulos de Apache
+
+Asegúrese de que los módulos necesarios estén habilitados:
+
+```bash
+# Verificar mod_authz_core (Apache 2.4+)
+apache2ctl -M | grep authz_core
+
+# Verificar mod_rewrite
+apache2ctl -M | grep rewrite
+
+# Si no están habilitados:
+sudo a2enmod authz_core
+sudo a2enmod rewrite
+sudo service apache2 restart
+```
+
+#### Solución 2: Configurar AllowOverride
+
+En su configuración de Apache (generalmente `/etc/apache2/sites-available/000-default.conf` o el VirtualHost correspondiente), asegúrese de tener:
+
+```apache
+<VirtualHost *:80>
+    ServerName majorbot.local
+    DocumentRoot /var/www/html/majorbot
+    
+    <Directory /var/www/html/majorbot>
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+</VirtualHost>
+```
+
+**Importante:** `AllowOverride All` es necesario para que los archivos `.htaccess` funcionen.
+
+#### Solución 3: Verificar permisos de archivos
+
+```bash
+# Dar permisos apropiados
+sudo chown -R www-data:www-data /var/www/html/majorbot
+sudo chmod -R 755 /var/www/html/majorbot
+
+# Los archivos deben tener permisos 644
+find /var/www/html/majorbot -type f -exec chmod 644 {} \;
+
+# Los directorios deben tener permisos 755
+find /var/www/html/majorbot -type d -exec chmod 755 {} \;
+```
+
+#### Solución 4: Verificar archivos .htaccess
+
+Asegúrese de que existan los siguientes archivos `.htaccess`:
+- `/majorbot/.htaccess` (raíz del proyecto)
+- `/majorbot/public/.htaccess` (directorio público)
+- `/majorbot/public/assets/.htaccess` (directorio de assets)
+
+Todos deben contener las directivas de acceso apropiadas para Apache 2.4+.
+
+#### Solución 5: Revisar logs de Apache
+
+Para obtener información detallada sobre el error:
+
+```bash
+# Ver errores en tiempo real
+sudo tail -f /var/log/apache2/error.log
+
+# Ver últimas líneas del log
+sudo tail -n 50 /var/log/apache2/error.log
+```
+
+#### Solución 6: Deshabilitar SELinux (si aplica)
+
+En sistemas con SELinux (CentOS, RHEL, Fedora):
+
+```bash
+# Verificar estado de SELinux
+getenforce
+
+# Si está en modo Enforcing, puede deshabilitarlo temporalmente para pruebas
+sudo setenforce 0
+
+# Para deshabilitar permanentemente, edite /etc/selinux/config
+```
+
+#### Verificación Final
+
+Después de aplicar los cambios:
+
+1. Reinicie Apache:
+   ```bash
+   sudo service apache2 restart
+   ```
+
+2. Limpie la caché del navegador
+
+3. Intente acceder nuevamente a la aplicación
+
 ### Error 404 en todas las páginas
 
 **Nota:** Este problema ha sido corregido en la versión actual. Los archivos `.htaccess` ahora usan rutas relativas que funcionan en cualquier configuración de directorio.
