@@ -1,3 +1,6 @@
+# Set DirectoryIndex to prevent 403 errors
+DirectoryIndex index.php
+
 <IfModule mod_rewrite.c>
     RewriteEngine On
     
