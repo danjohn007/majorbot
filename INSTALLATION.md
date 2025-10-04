@@ -208,6 +208,10 @@ Las configuraciones de email se agregarán en futuras versiones.
 
 ### Error 404 en todas las páginas
 
+**Nota:** Este problema ha sido corregido en la versión actual. Los archivos `.htaccess` ahora usan rutas relativas que funcionan en cualquier configuración de directorio.
+
+Si aún experimenta errores 404, verifique lo siguiente:
+
 1. Verifique que mod_rewrite esté habilitado:
    ```bash
    apache2ctl -M | grep rewrite
@@ -221,6 +225,8 @@ Las configuraciones de email se agregarán en futuras versiones.
    ```apache
    AllowOverride All
    ```
+
+4. Si ha actualizado desde una versión anterior, asegúrese de que el archivo `.htaccess` raíz esté actualizado y use rutas relativas (sin `RewriteBase /`)
 
 ### La URL base no se detecta correctamente
 
