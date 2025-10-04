@@ -206,27 +206,34 @@ Las configuraciones de email se agregarán en futuras versiones.
    mysql -u root -p -e "SHOW DATABASES;"
    ```
 
-### Error 404 en todas las páginas
+### Error 403 FORBIDDEN en el directorio raíz o Error 404 en public/
 
-**Nota:** Este problema ha sido corregido en la versión actual. Los archivos `.htaccess` ahora usan rutas relativas que funcionan en cualquier configuración de directorio.
+**Nota:** Este problema ha sido corregido en la versión actual. Los archivos `.htaccess` han sido actualizados para:
+- Redirigir correctamente todo el tráfico a la carpeta `public/`, incluyendo el acceso directo al directorio raíz
+- Incluir la directiva `DirectoryIndex index.php` en `public/.htaccess` para prevenir errores 403
 
-Si aún experimenta errores 404, verifique lo siguiente:
+Si aún experimenta estos errores, verifique lo siguiente:
 
 1. Verifique que mod_rewrite esté habilitado:
    ```bash
    apache2ctl -M | grep rewrite
    ```
 
-2. Verifique que existan los archivos `.htaccess`:
-   - `/majorbot/.htaccess`
-   - `/majorbot/public/.htaccess`
+2. Verifique que existan los archivos `.htaccess` con el contenido correcto:
+   - `/majorbot/.htaccess` - debe redirigir a `public/` sin la condición `!-d`
+   - `/majorbot/public/.htaccess` - debe incluir `DirectoryIndex index.php`
 
 3. Verifique la configuración de Apache `AllowOverride`:
    ```apache
    AllowOverride All
    ```
 
-4. Si ha actualizado desde una versión anterior, asegúrese de que el archivo `.htaccess` raíz esté actualizado y use rutas relativas (sin `RewriteBase /`)
+4. Verifique los permisos de los archivos `.htaccess`:
+   ```bash
+   chmod 644 .htaccess public/.htaccess
+   ```
+
+5. Si ha actualizado desde una versión anterior, asegúrese de reemplazar ambos archivos `.htaccess` con las versiones actualizadas
 
 ### La URL base no se detecta correctamente
 

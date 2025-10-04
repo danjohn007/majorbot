@@ -303,16 +303,22 @@ define('SITE_NAME', 'Tu Hotel - Sistema de Gestión');
 3. Verifica que la base de datos exista
 4. Comprueba los permisos del usuario MySQL
 
-### Error 404 en todas las páginas
+### Error 403 FORBIDDEN en el directorio raíz o Error 404 en public/
 
-**✅ Corregido:** Los archivos `.htaccess` ahora usan rutas relativas y funcionan en cualquier configuración.
+**✅ Corregido:** Los archivos `.htaccess` han sido actualizados para manejar correctamente el acceso a directorios:
+- El `.htaccess` raíz ahora redirige correctamente todo el tráfico (incluyendo accesos a directorios) a la carpeta `public/`
+- El `.htaccess` de `public/` incluye la directiva `DirectoryIndex index.php` para prevenir errores 403
 
 Si aún tienes problemas:
 
-1. Verifica que mod_rewrite esté habilitado
-2. Comprueba que los archivos .htaccess existan
-3. Revisa la configuración de AllowOverride en Apache
-4. Si actualizaste desde una versión anterior, asegúrate de actualizar el archivo `.htaccess` raíz
+1. Verifica que mod_rewrite esté habilitado:
+   ```bash
+   apache2ctl -M | grep rewrite
+   ```
+2. Comprueba que los archivos .htaccess existan y tengan el contenido actualizado
+3. Revisa la configuración de AllowOverride en Apache (debe ser `All`)
+4. Asegúrate de que Apache tenga permisos de lectura en los archivos .htaccess
+5. Si actualizaste desde una versión anterior, reemplaza los archivos `.htaccess` con las versiones actualizadas
 
 ### Las rutas no funcionan
 
