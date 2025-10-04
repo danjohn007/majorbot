@@ -13,9 +13,9 @@ define('BASE_URL', rtrim(getBaseUrl(), '/'));
 
 // Database configuration
 define('DB_HOST', 'localhost');
-define('DB_NAME', 'majorbot_db');
-define('DB_USER', 'root');
-define('DB_PASS', '');
+define('DB_NAME', 'aqh_majorbot');
+define('DB_USER', 'aqh_majorbot');
+define('DB_PASS', 'Danjohn007!');
 define('DB_CHARSET', 'utf8mb4');
 
 // System configuration
